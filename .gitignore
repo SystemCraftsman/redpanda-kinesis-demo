@@ -1,0 +1,5 @@
+.redpanda-agent
+.vscode
+.idea
+.venv
+.DS_Store
