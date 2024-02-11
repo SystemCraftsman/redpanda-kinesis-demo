@@ -1,12 +1,10 @@
 package com.systemcraftsman.demo;
 
 import com.amazonaws.services.kinesisanalytics.runtime.KinesisAnalyticsRuntime;
-import com.systemcraftsman.demo.model.ExtendedSensor;
 import com.systemcraftsman.demo.model.Sensor;
 import com.systemcraftsman.demo.serde.ExtendedSensorSerializationSchema;
 import com.systemcraftsman.demo.serde.SensorDeserializationSchema;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
-import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.connector.base.DeliveryGuarantee;
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
 import org.apache.flink.connector.kafka.sink.KafkaSink;
@@ -69,16 +67,8 @@ public class SensorProcessorJob {
 
         DataStream<Sensor> stream = createKafkaSourceFromApplicationProperties(env);
 
-        stream.map((MapFunction<Sensor, ExtendedSensor>) sensor -> {
-            float humidity = sensor.getHumidity();
-            float soil = sensor.getSoil();
-            float wind = sensor.getWind();
-            float temperatureCelsius = sensor.getTemperature();
-
-            float temperatureFahrenheit = (temperatureCelsius * 9 / 5) + 32;
-
-            return new ExtendedSensor(temperatureCelsius, humidity, wind, soil, temperatureFahrenheit);
-        }).sinkTo(createKafkaSinkFromApplicationProperties());
+        //TODO: Update the stream to convert the Celsius to a Fahrenheit temperature and add it in the properties
+        stream.sinkTo(createKafkaSinkFromApplicationProperties());
 
         env.execute("Sensor Processor Flink Application");
     }
