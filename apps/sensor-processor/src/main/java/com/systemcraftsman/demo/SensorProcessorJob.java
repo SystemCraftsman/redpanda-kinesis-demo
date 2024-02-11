@@ -73,11 +73,11 @@ public class SensorProcessorJob {
             float humidity = sensor.getHumidity();
             float soil = sensor.getSoil();
             float wind = sensor.getWind();
-            float temperatureCelcius = sensor.getTemperature();
+            float temperatureCelsius = sensor.getTemperature();
 
-            float temperatureFahrenheit = (temperatureCelcius * 9 / 5) + 32;
+            float temperatureFahrenheit = (temperatureCelsius * 9 / 5) + 32;
 
-            return new ExtendedSensor(temperatureCelcius, humidity, wind, soil, temperatureFahrenheit);
+            return new ExtendedSensor(temperatureCelsius, humidity, wind, soil, temperatureFahrenheit);
         }).sinkTo(createKafkaSinkFromApplicationProperties());
 
         env.execute("Sensor Processor Flink Application");
