@@ -38,7 +38,7 @@ def main():
 
     for _ in range(20000):
         json_data = get_json_data()
-        producer.send('sensor', bytes(f'{json_data}','UTF-8'))
+        producer.send('sensor-data', bytes(f'{json_data}','UTF-8'))
         print(f"Sensor data is sent: {json_data}")
         time.sleep(5)
 
